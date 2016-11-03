@@ -5,7 +5,7 @@ import m from 'mithril';
 import Updates from './updates';
 import ComplexActions from './complexActions';
 
-import Main from './components/main';
+import App from './components/app';
 
 const loadApp = () => ({
   state: {
@@ -68,7 +68,7 @@ async function initRender(app, element) {
     const state = await app.renderCh.take();
     const finishRender = new Channel();
 
-    m.render(element, m(Main, {
+    m.render(element, m(App, {
       appState: app.state,
       updateChannels: app.updates.channels,
       complexActionsChannels: app.complexActions.channels

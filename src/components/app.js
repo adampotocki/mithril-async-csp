@@ -2,21 +2,16 @@ import m from 'mithril';
 
 import CreateWord from './createWord';
 
-const Main = {
+const App = {
   view(vnode) {
     const state = vnode.attrs.appState;
     const currentWord = state.words[state.current];
 
-    async function page(direction) {
-      const ch = vnode.attrs.updateChannels.page;
-      return await ch.put(direction);
-    }
-
     return m('div', [
       m('p', `Current word: ${currentWord}`),
       m('p', [
-        m('a[href="#"]', { onclick: () => page('prev') }, 'Previous'),
-        m('a[href="#"]', { onclick: () => page('next') }, 'Next')
+        m('button.uk-button.uk-margin-right', { onclick: e => this.page(vnode, 'prev') }, 'Previous'),
+        m('button.uk-button.uk-margin-right', { onclick: e => this.page(vnode, 'next') }, 'Next')
       ]),
       m(CreateWord, {
         complexActionsChannels: vnode.attrs.complexActionsChannels,
@@ -24,7 +19,11 @@ const Main = {
       }),
       m('pre', JSON.stringify(state, null, ' '))
     ]);
+  },
+  async page(vnode, direction) {
+    const ch = vnode.attrs.updateChannels.page;
+    await ch.put(direction);
   }
 };
 
-export default Main;
+export default App;

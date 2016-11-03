@@ -12728,87 +12728,84 @@ var CreateWord = {
     vnode.state.inputText = index$4.prop('');
   },
   view: function view(vnode) {
-    var create = function () {
-      var _ref = _asyncToGenerator$3(regeneratorRuntime.mark(function _callee() {
-        var text, ch;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                text = vnode.state.inputText().trim();
-                ch = vnode.attrs.complexActionsChannels.dbInsert;
-                _context.next = 4;
-                return ch.put(text);
-
-              case 4:
-                vnode.state.inputText('');
-
-              case 5:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function create() {
-        return _ref.apply(this, arguments);
-      };
-    }();
+    var _this = this;
 
     var loading = vnode.attrs.loading;
 
-    return loading ? index$4('p', 'Adding word...') : index$4('p', [index$4('input[type="text"]', {
+    return loading ? index$4('p', 'Adding word...') : index$4('p.uk-form', [index$4('input[type="text"]', {
       value: vnode.state.inputText(),
       onchange: index$4.withAttr('value', vnode.state.inputText)
-    }), index$4('a[href="#"]', {
-      onclick: create
+    }), index$4('button.uk-button.uk-margin-left', {
+      onclick: function onclick(e) {
+        return _this.create(vnode);
+      }
     }, 'Add...')]);
+  },
+  create: function create(vnode) {
+    var _this2 = this;
+
+    return _asyncToGenerator$3(regeneratorRuntime.mark(function _callee() {
+      var text, ch;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              text = vnode.state.inputText().trim();
+              ch = vnode.attrs.complexActionsChannels.dbInsert;
+              _context.next = 4;
+              return ch.put(text);
+
+            case 4:
+              vnode.state.inputText('');
+
+            case 5:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, _this2);
+    }))();
   }
 };
 
 function _asyncToGenerator$2(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var Main = {
+var App = {
   view: function view(vnode) {
-    var page = function () {
-      var _ref = _asyncToGenerator$2(regeneratorRuntime.mark(function _callee(direction) {
-        var ch;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                ch = vnode.attrs.updateChannels.page;
-                _context.next = 3;
-                return ch.put(direction);
-
-              case 3:
-                return _context.abrupt('return', _context.sent);
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function page(_x) {
-        return _ref.apply(this, arguments);
-      };
-    }();
+    var _this = this;
 
     var state = vnode.attrs.appState;
     var currentWord = state.words[state.current];
 
-    return index$4('div', [index$4('p', 'Current word: ' + currentWord), index$4('p', [index$4('a[href="#"]', { onclick: function onclick() {
-        return page('prev');
-      } }, 'Previous'), index$4('a[href="#"]', { onclick: function onclick() {
-        return page('next');
+    return index$4('div', [index$4('p', 'Current word: ' + currentWord), index$4('p', [index$4('button.uk-button.uk-margin-right', { onclick: function onclick(e) {
+        return _this.page(vnode, 'prev');
+      } }, 'Previous'), index$4('button.uk-button.uk-margin-right', { onclick: function onclick(e) {
+        return _this.page(vnode, 'next');
       } }, 'Next')]), index$4(CreateWord, {
       complexActionsChannels: vnode.attrs.complexActionsChannels,
       loading: vnode.attrs.appState.loading
     }), index$4('pre', JSON.stringify(state, null, ' '))]);
+  },
+  page: function page(vnode, direction) {
+    var _this2 = this;
+
+    return _asyncToGenerator$2(regeneratorRuntime.mark(function _callee() {
+      var ch;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              ch = vnode.attrs.updateChannels.page;
+              _context.next = 3;
+              return ch.put(direction);
+
+            case 3:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, _this2);
+    }))();
   }
 };
 
@@ -12958,7 +12955,7 @@ var initRender = function () {
                       finishRender = new Channel();
 
 
-                      index$4.render(element, index$4(Main, {
+                      index$4.render(element, index$4(App, {
                         appState: app.state,
                         updateChannels: app.updates.channels,
                         complexActionsChannels: app.complexActions.channels
